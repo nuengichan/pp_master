@@ -1,0 +1,67 @@
+version: '3.1'
+services:
+  composer:
+    image: composer
+    volumes:
+      - .:/app
+    command: [
+      'bash', '-c',
+      '
+      composer install &&
+      if [[ -f /app/.env ]]; then echo "ENV file exists";
+      else cp /app/.env.example /app/.env && php artisan key:generate; fi
+      '
+      ]
+
+  node:
+    image: node
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: [
+      'bash', '-c',
+      "npm install && npm run watch"
+    ]
+
+  php:
+    build: .dockerconfig/php
+    volumes:
+      - .dockerconfig/php/conf.d:/usr/local/etc/php/conf.d
+      - .:/var/www/html
+    depends_on:
+      - composer
+    expose:
+      - 9000
+    networks:
+      - frontend
+      - backend
+
+  redis:
+    image: redis
+    expose:
+      - 6739
+    networks:
+      - backend
+
+  mysql_server:
+    build: mysql/
+    ports:
+      - 33006:3306
+    container_name: mysql_server
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=pp_master
+
+secrets:
+  db_root_password:
+    file: .dockerconfig/secrets/db-root-password
+  db_database:
+    file: .dockerconfig/secrets/db-database
+  db_user:
+    file: .dockerconfig/secrets/db-user
+  db_password:
+    file: .dockerconfig/secrets/db-password
+
+networks:
+  frontend:
+  backend:
