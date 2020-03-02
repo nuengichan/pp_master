@@ -25,20 +25,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $view = [];
-        $user = Auth::user();
-        
-        $home_repository = new HomeRepository();
-        
+        $view  = [];
+        $user  = Auth::user();
         $param = [
             "user_id" => array_get($user, 'id')
         ];
         
+        $home_repository = new HomeRepository();
+        $photo           = $home_repository->checkPhoto($param);
+        $view['photos']  = $photo;
 
-        $photo = $home_repository->checkPhoto($param);
-        //  print_r($photo); die;
-        $view['photos'] = $photo;
-        // echo '<pre>'; print_r($view); die;
         return view('home', $view);
     }
 }

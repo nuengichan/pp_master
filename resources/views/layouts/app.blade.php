@@ -27,7 +27,7 @@
                     {{ config('app.name', 'PP') }}
                 </a>
                 <div class="menu">
-                    <a href="/home">Home</a>
+                    <a href="/home" >Home</a>
                     <a href="/Gallery">Gallery</a>
                 </div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -86,7 +86,13 @@
 
 <style>
 .menu {
-    margin-left: 25px
+    margin-left: 25px;
+    color: black
+}
+
+a {
+    color: black;
+    padding: 10px
 }
 
 </style>

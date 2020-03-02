@@ -14,14 +14,28 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    
+
+
+                    @if (empty($photos))
+                      No Data
+                    @endif
 
                     @if ($photos)
-                    
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-sm-4">Type</div>
+                          <div class="col-sm-4">No of image</div> 
+                          <div class="col-sm-4">Size</div>
+                        </div>
+                      </div>
                       @foreach ($photos as $photo)
-
-                     
-                        <div class="card-header">  {{ $photo['id'] }} </div> 
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-4">{{ $photo['image_type'] }}</div>
+                            <div class="col-md-4">{{ $photo['id'] }}</div>
+                            <div class="col-md-4">{{ $photo['size'] }} KB</div>
+                            </div> 
+                        </div>
                       @endforeach
                     @endif
                   

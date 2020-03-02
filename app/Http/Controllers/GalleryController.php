@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Gallery;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\GalleryRepository;
 
 class GalleryController extends Controller
 {
@@ -29,19 +30,24 @@ class GalleryController extends Controller
     {
         $user       = Auth::user();
         $image      = $request->file('file');
-        $imageName  = $image->getClientOriginalName();
+        $image_name  = $image->getClientOriginalName();
         $image_size = $image->getSize();
         $image_type = $image->getClientOriginalExtension();
-        $image->move(public_path('images'), $imageName);
+        $image->move(public_path('images'), $image_name);
        
+        $params = [
+            'user'       => $user,
+            'image'      => $image,
+            'image_name' => $image_name,
+            'image_size' => $image_size,
+            'image_type' => $image_type
+        ];
+
+
+        $imageUpload = new GalleryRepository();
+        $response    = $imageUpload->uploadPhoto($params);
         
-        $imageUpload             = new Gallery();
-        $imageUpload->file_name  = $imageName;
-        $imageUpload->size       = $image_size;
-        $imageUpload->user_id    = $user['id'];
-        $imageUpload->image_type = $image_type;
-        $imageUpload->save();
-        return response()->json(['success' => $imageName]);
+        return response()->json(['success' => $response]);
     }
 
     public function deletePhoto(Request $request)
