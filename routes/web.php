@@ -18,8 +18,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index');
-
-
 Route::get('/Gallery', 'GalleryController@multifileupload')->name('multifileupload');
 Route::post('/Gallery', 'GalleryController@uploadPhoto')->name('multifileupload');
 Route::post('/delete', 'GalleryController@deletePhoto');

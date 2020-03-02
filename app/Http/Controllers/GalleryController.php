@@ -22,7 +22,6 @@ class GalleryController extends Controller
 
     public function multifileupload()
     {
-        
         return view('gallery');
     }
 

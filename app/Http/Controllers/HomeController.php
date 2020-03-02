@@ -30,7 +30,7 @@ class HomeController extends Controller
         $param = [
             "user_id" => array_get($user, 'id')
         ];
-        
+       
         $home_repository = new HomeRepository();
         $photo           = $home_repository->checkPhoto($param);
         $view['photos']  = $photo;
